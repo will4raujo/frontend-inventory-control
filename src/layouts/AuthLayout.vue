@@ -1,7 +1,7 @@
 <template>
   <main class="auth-container">
     <div class="logo-container">
-      <Sticker :size="80" />
+      <Sticker :size="100" />
       <h2>Inventory Control</h2>
     </div>
     <div class="form-container">
@@ -33,20 +33,21 @@
   }
 
   .form-container {
-    max-width: 400px;
+    width: 300px;
     margin: 0;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #444;
   }
 
   .auth-form {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: .8rem;
   }
 
-  .auth-form > legend {
+  .auth-form legend {
     font-size: 1.5rem;
     align-self: center;
   }
@@ -57,6 +58,10 @@
     justify-content: center;
     align-items: center;
     gap: 10rem;
+  }
+
+  .form-container {
+    width: 360px;
   }
 }
 </style>
