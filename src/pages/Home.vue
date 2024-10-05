@@ -69,6 +69,7 @@ export default {
     display: flex;
     justify-content: space-around;
     gap: 2rem;
+    margin: 2rem 0;
   }
 
   table {
