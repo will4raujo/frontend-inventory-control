@@ -1,20 +1,23 @@
 <template>
   <form class="auth-form">
-    <legend>Faça seu login</legend>
-    <div>
-      <label for="email">E-mail</label>
-      <input type="email" id="email" />
-    </div>
-    <div>
-      <label for="password">Senha</label>
-      <input type="password" id="password" />
-    </div>
-    <button>Entrar</button>
+    <legend>Faça login</legend>
+    <InputText id="email" placeholder="E-mail" type="email" />
+    <InputText id="password" placeholder="Senha" type="password" />
+    <Button text="Entrar" />
+    <router-link to="/signup">Não tenho uma conta</router-link>
   </form>
 </template>
 
-<script>
-export default {
-  name: 'SignIn',
-};
+<script setup>
+  import Button from '../components/atoms/Button.vue';
+  import InputText from '../components/atoms/InputText.vue';
+
 </script>
+
+<style scoped>
+  a {
+    color: #fff;
+    text-decoration: none;
+    align-self: center;
+  }
+</style>

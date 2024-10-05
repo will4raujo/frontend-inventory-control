@@ -1,31 +1,11 @@
 <template>
   <form class="auth-form">
     <legend>Crie sua conta</legend>
-    <div>
-      <label for="name">Nome</label>
-      <input type="text" id="name" />
-    </div>
-
-    <div>
-      <label for="email">E-mail</label>
-      <input type="email" id="email" />
-    </div>
-
-    <div>
-      <label for="password">Senha</label>
-      <input type="password" id="password" />
-    </div>
-
-    <div>
-      <label for="confirm-password">Confirme sua senha</label>
-      <input type="password" id="confirm-password" />
-    </div>
-
-    <div>
-      <label for="phone">Telefone</label>
-      <input type="tel" id="phone" />
-    </div>
-
+    <InputText id="name" placeholder="Nome" type="text" />
+    <InputText id="email" placeholder="E-mail" type="email" />
+    <InputText id="password" placeholder="Senha" type="password" />
+    <InputText id="confirm-password" placeholder="Confirme sua senha" type="password" />
+    <InputText id="phone" placeholder="Telefone" type="tel" />
     <div>
       <label for="type">Tipo de usuário</label>
       <select id="type">
@@ -34,12 +14,38 @@
         <option value="user">Usuário</option>
       </select>
     </div>
-    <button>Criar conta</button>
+    <Button text="Criar conta" />
+    <router-link to="/signin">Já tenho uma conta</router-link>
   </form>
 </template>
 
-<script>
-export default {
-  name: 'SignUp',
-};
+<script setup>
+import InputText from '../components/atoms/InputText.vue';
+import Button from '../components/atoms/Button.vue';
+
 </script>
+
+<style scoped>
+  select {
+   display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 35px;
+    padding: 4px 8px;
+    border-radius: 5px;
+    background-color: #666;
+    color: #fff;
+    width: 100%;
+  }
+
+  select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #555;
+  }
+
+  a {
+    color: #fff;
+    text-decoration: none;
+    align-self: center;
+  }
+</style>
