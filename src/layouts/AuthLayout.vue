@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { Sticker } from 'lucide-vue-next';
+  import { Sticker } from 'lucide-vue-next';
 </script>
 
 <style>
