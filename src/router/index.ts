@@ -12,6 +12,8 @@ import Suppliers from '../pages/Suppliers.vue';
 import NotFound from '../pages/NotFound.vue';
 import AuthLayout from '../layouts/AuthLayout.vue';
 import AppLayout from '../layouts/AppLayout.vue';
+import BalanceReport from '../pages/BalanceReport.vue';
+import MovementReport from '../pages/MovementReport.vue';
 
 // import { useUserStore } from '../store/user';
 
@@ -29,7 +31,9 @@ const appRoutes = [
     { path: '/categories', name: 'Categories', component: Categories },
     { path: '/suppliers', name: 'Suppliers', component: Suppliers },
     { path: '/products', name: 'Products', component: Products },
-    { path: '/movements', name: 'StockMovements', component: StockMovements }
+    { path: '/stock-movements', name: 'StockMovements', component: StockMovements },
+    { path: '/reports/balance', name: 'BalanceReport', component: BalanceReport },
+    { path: '/reports/movements', name: 'MovementsReport', component: MovementReport }
   ]}
 ];
 
