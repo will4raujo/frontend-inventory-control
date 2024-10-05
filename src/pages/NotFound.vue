@@ -1,0 +1,9 @@
+<template>
+  <h1>404 - Página não encontrada</h1>
+</template>
+
+<script>
+export default {
+  name: 'NotFound',
+};
+</script>
