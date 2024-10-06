@@ -36,6 +36,10 @@
   padding: 0.5rem;
 }
 
+.crud-table {
+  text-align: left;
+}
+
 .crud-table th:last-child {
   text-align: center;
 }
@@ -43,7 +47,7 @@
 .crud-table td:last-child div {
   display: flex;
   gap: .3rem;
-  justify-content: end;
+  justify-content: center;
 }
 
 .crud-table tr:hover {

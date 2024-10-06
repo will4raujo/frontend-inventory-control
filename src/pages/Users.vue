@@ -1,6 +1,33 @@
-<script setup>
+<script>
   import Button from '../components/atoms/Button.vue';
   import IconButton from '../components/atoms/IconButton.vue';
+  import api from '../services/api';
+
+  export default {
+    components: {
+      Button,
+      IconButton,
+    },
+    data() {
+      return {
+        users: [], 
+      };
+    },
+    mounted() {
+      this.getUsers();
+    },
+    methods: {
+      getUsers() {
+        api.get('/users')
+          .then((response) => {
+            this.users = response.data;
+          })
+          .catch((error) => {
+            console.error(error);
+          });        
+      }
+    }
+  };
 </script>
 
 <template>
@@ -23,19 +50,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Nome do usuário</td>
-            <td>email@example.com</td>
-            <td>
-              <div>
-                <IconButton iconType="pen" />
-                <IconButton iconType="trash" />
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>Nome do usuário</td>
-            <td>email@example.com</td>
+          <tr v-for="user in users" :key="user.id">
+            <td>{{ user.name }}</td> 
+            <td>{{ user.email }}</td>
             <td>
               <div>
                 <IconButton iconType="pen" />
@@ -63,4 +80,4 @@
   .btn-wrapper {
     max-width: 220px;
   }
-  </style>
+</style>
