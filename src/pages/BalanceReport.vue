@@ -1,18 +1,9 @@
 <script setup>
-  import Button from '../components/atoms/Button.vue';
 </script>
 
 <template>
-  <h1>Movimentações de estoque</h1>
+  <h1>Relatório de saldo de estoque</h1>
   <div>
-    <div class="first-row">
-      <div class="inputs-container">
-        <Button text="Novo registro" />
-      </div>
-      <div class="inputs-container">
-        <Button text="Ajustar estoque" />
-      </div>
-    </div>
     <div class="table-wrapper">
       <table>
         <thead>
@@ -43,19 +34,8 @@
 </template>
 
 <style scoped>
-  .first-row {
-    display: flex;
-    justify-content: end;
-    gap: 1rem;
-    margin: 2rem 0;
-  }
-
-  .inputs-container {
-    display: flex;
-    align-items: end;
-    justify-content: end;
-    gap: 1rem;
-    max-width: 220px;
+  h1 {
+    margin-bottom: 2rem;
   }
 
   table {
