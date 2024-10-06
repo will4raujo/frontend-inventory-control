@@ -4,6 +4,7 @@
   import { ref } from 'vue';
   import api from '../services/api';
   import { useRouter } from 'vue-router';
+  import { useUserStore } from '../stores/user';
 
   const formData = ref({
     email: '',
@@ -16,6 +17,7 @@
   });
 
   const router = useRouter();
+  const { fetchUserProfile } = useUserStore();
 
   const validateForm = () => {
     let valid = true;
@@ -47,7 +49,9 @@
 
     try {
       const response = await api.post('/login', formData.value);
-      localStorage.setItem('@inventorycontrol:user', response.data.token);
+      console.log(response.data);
+      localStorage.setItem('@inventorystocktoken', response.data.access_token);
+      await fetchUserProfile();
       router.push('/');
     } catch (error) {
       alert('E-mail ou senha inválidos.');

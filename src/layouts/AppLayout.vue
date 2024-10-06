@@ -1,6 +1,36 @@
+<script setup>
+import { ref, onMounted } from 'vue';
+import { House, Users, Barcode, ChartBarStacked, Truck, LogOut, FilePen, FileSpreadsheet } from 'lucide-vue-next';
+import Li from '../components/atoms/Li.vue';
+import { useUserStore } from '../stores/user';
+
+const { user, fetchUserProfile } = useUserStore();
+const showCadastros = ref(false);
+const showRelatorios = ref(false);
+
+onMounted(async () => {
+  await fetchUserProfile(); // Busca os dados do usuário quando o layout é montado
+});
+
+function toggleSection(section) {
+  if (section === 'cadastros') {
+    showCadastros.value = !showCadastros.value;
+  } else if (section === 'relatorios') {
+    showRelatorios.value = !showRelatorios.value;
+  }
+}
+
+function handleLogout() {
+  localStorage.removeItem('@inventorystocktoken');
+  window.location.href = '/signin';
+}
+
+</script>
+
 <template>
   <div class="app-container">
     <aside class="menu-aside">
+      <p>Olá, {{ user?.name }}</p>
       <nav>
         <ul>
           <Li to="/" label="Home" />
@@ -32,7 +62,7 @@
           </li>
         </ul>
 
-        <button class="logout-button">
+        <button class="logout-button" @click="handleLogout">
           <LogOut :size="20" />
           Sair
         </button>
@@ -44,23 +74,6 @@
     </main>
   </div>
 </template>
-
-<script setup>
-import { ref } from 'vue';
-import { House, Users, Barcode, ChartBarStacked, Truck, LogOut, FilePen, FileSpreadsheet } from 'lucide-vue-next';
-import Li from '../components/atoms/li.vue';
-
-const showCadastros = ref(false);
-const showRelatorios = ref(false);
-
-function toggleSection(section) {
-  if (section === 'cadastros') {
-    showCadastros.value = !showCadastros.value;
-  } else if (section === 'relatorios') {
-    showRelatorios.value = !showRelatorios.value;
-  }
-}
-</script>
 
 <style>
   .app-container {
@@ -83,7 +96,11 @@ function toggleSection(section) {
     top: 0;
     left: 0;
     transition: all 0.3s;
-    padding: 1.5rem 0;
+    padding: 1rem 0 2rem 0;
+  }
+
+  .menu-aside p {
+    text-align: center;
   }
 
   .menu-aside nav {
