@@ -1,6 +1,19 @@
 <script setup>
   import Button from '../components/atoms/Button.vue';
-import IconButton from '../components/atoms/IconButton.vue';
+  import IconButton from '../components/atoms/IconButton.vue';
+  import InputText from '../components/atoms/InputText.vue';
+  
+  import { ref } from 'vue';
+  import Modal from '../components/atoms/Modal.vue';
+  
+  const showModal = ref(false);
+
+  function addProduct(event) {
+    event.preventDefault();
+    console.log('Adicionando produto');
+    showModal.value = false;
+  }
+ 
 </script>
 
 <template>
@@ -8,7 +21,7 @@ import IconButton from '../components/atoms/IconButton.vue';
   <div>
     <div class="first-row">
       <div class="inputs-container">
-        <Button text="Novo produto" />
+        <Button text="Novo produto" @click="showModal = true" />
       </div>
     </div>
     <div class="table-wrapper">
@@ -45,6 +58,15 @@ import IconButton from '../components/atoms/IconButton.vue';
       </table>
     </div>
   </div>
+  <Modal :isVisible="showModal" @close="showModal = false">
+    <h2>Novo produto</h2>
+    <form class="form-content" @submit.prevent="addProduct">
+      <div class="btn-wrapper">
+        <Button text="Cancelar" styleType="ghost" @click="showModal = false" />
+        <Button text="Salvar" @click="addProduct" />
+      </div>
+    </form>
+  </Modal>
 </template>
 
 <style scoped>
@@ -59,4 +81,18 @@ import IconButton from '../components/atoms/IconButton.vue';
     gap: 1rem;
     max-width: 220px;
   }
+
+  .form-content {
+    margin: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .btn-wrapper {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .btn-wrapper { }
   </style>

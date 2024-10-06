@@ -1,3 +1,6 @@
+<script setup>
+</script>
+
 <template>
   <h1>Home</h1>
   <div class="tables-wrapper">
@@ -58,11 +61,7 @@
 </div>
 </template>
 
-<script>
-export default {
-  name: 'Home',
-};
-</script>
+
 
 <style scoped>
   .tables-wrapper {

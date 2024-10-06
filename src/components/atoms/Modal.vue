@@ -1,5 +1,5 @@
 <template>
-  <div v-if="props.isVisible" class="modal-overlay" @click.self="close">
+  <div v-if="props.isVisible" class="modal-overlay">
     <div class="modal-content">
       <button class="close-button" @click="close">✖</button>
       <slot></slot>
@@ -44,8 +44,6 @@
     width: 90%;
     max-width: 500px;
     position: relative;
-    display: flex;
-    flex-direction: column;
   }
 
   .close-button {
