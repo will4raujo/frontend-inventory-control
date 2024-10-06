@@ -8,9 +8,6 @@ const { user, fetchUserProfile } = useUserStore();
 const showCadastros = ref(false);
 const showRelatorios = ref(false);
 
-onMounted(async () => {
-  await fetchUserProfile(); // Busca os dados do usuário quando o layout é montado
-});
 
 function toggleSection(section) {
   if (section === 'cadastros') {

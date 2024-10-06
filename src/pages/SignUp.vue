@@ -99,23 +99,6 @@ const handleSubmit = async (event) => {
 </template>
 
 <style scoped>
-  select {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    height: 35px;
-    padding: 4px 8px;
-    border-radius: 5px;
-    background-color: #666;
-    color: #fff;
-    width: 100%;
-  }
-
-  select:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px #555;
-  }
-
   a {
     color: #fff;
     text-decoration: none;

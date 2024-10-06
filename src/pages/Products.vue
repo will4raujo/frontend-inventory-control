@@ -81,18 +81,5 @@
     gap: 1rem;
     max-width: 220px;
   }
-
-  .form-content {
-    margin: 2rem 0;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .btn-wrapper {
-    display: flex;
-    gap: 1rem;
-  }
-
-  .btn-wrapper { }
+  
   </style>
