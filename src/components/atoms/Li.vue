@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { House, Users, Barcode, ChartBarStacked, Truck, LogOut, Blocks } from 'lucide-vue-next';
+import { House, Users, Barcode, ChartBarStacked, Truck, LogOut, Blocks, ArrowRightLeft, ChartColumn } from 'lucide-vue-next';
 
 const props = defineProps<{ to: string, label: string }>();
 
@@ -20,6 +20,10 @@ const IconComponent = computed(() => {
       return LogOut;
     case '/stock-movements':
       return Blocks;
+    case '/reports/balance':
+      return ChartColumn;
+    case '/reports/movements':
+      return ArrowRightLeft;
     default:
       return House;
   }
