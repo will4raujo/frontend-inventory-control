@@ -4,6 +4,7 @@
   import InputText from '../components/atoms/InputText.vue';
   import Modal from '../components/atoms/Modal.vue';
   import api from '../services/api';
+  import { useUserStore } from '../stores/user';
   
   export default {
     components: {
@@ -52,7 +53,6 @@
               user.role_id = handleRole(user.role_id);
             });
             this.users = response.data;
-            console.log(this.users);
           })
           .catch((error) => {
             console.error(error);

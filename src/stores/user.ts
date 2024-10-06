@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import api from '../services/api'; 
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 interface User {
   id: number;
@@ -12,11 +13,13 @@ interface User {
 
 export const useUserStore = defineStore('user', () => {
   const user = ref<User | null>(null);
+  const router = useRouter();
 
   const fetchUserProfile = async () => {
     const token = localStorage.getItem('@inventorystocktoken');
     if (!token) {
       console.error('Token não encontrado.');
+      router.push('/signin');
       return;
     }
 
