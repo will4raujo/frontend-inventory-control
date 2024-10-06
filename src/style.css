@@ -18,3 +18,34 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+
+.crud-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.crud-table th {
+  background-color: #333;
+  color: #fff;
+  padding: 0.5rem;
+}
+
+.crud-table td {
+  border-bottom: 1px solid #666;
+  padding: 0.5rem;
+}
+
+.crud-table th:last-child {
+  text-align: center;
+}
+
+.crud-table td:last-child div {
+  display: flex;
+  gap: .3rem;
+  justify-content: end;
+}
+
+.crud-table tr:hover {
+  background-color: #555;
+}

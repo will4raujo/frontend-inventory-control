@@ -1,5 +1,6 @@
 <script setup>
   import Button from '../components/atoms/Button.vue';
+  import IconButton from '../components/atoms/IconButton.vue';
 </script>
 
 <template>
@@ -13,7 +14,7 @@
       </div>
     </div>
     <div class="table-wrapper">
-      <table>
+      <table class="crud-table">
         <thead>
           <tr>
             <th>Nome</th>
@@ -26,16 +27,20 @@
             <td>Nome do fornecedor</td>
             <td>(44) 99999-9999</td>
             <td>
-              <Button text="Editar" />
-              <Button text="Excluir" />
+              <div>
+                <IconButton iconType="pen" />
+                <IconButton iconType="trash" />
+              </div>
             </td>
           </tr>
           <tr>
             <td>Nome do fornecedor</td>
             <td>(44) 99999-9999</td>
             <td>
-              <Button text="Editar" />
-              <Button text="Excluir" />
+              <div>
+                <IconButton iconType="pen" />
+                <IconButton iconType="trash" />
+              </div>
             </td>
           </tr>
         </tbody>
@@ -55,34 +60,4 @@
     gap: 1rem;
   }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  th {
-    background-color: #333;
-    color: #fff;
-    padding: 0.5rem;
-  }
-
-  td {
-    border-bottom: 1px solid #666;
-    padding: 0.5rem;
-  }
-  
-
-  th:last-child {
-    text-align: center;
-  }
-
-  td:last-child {
-    display: flex;
-    gap: 1rem;
-    justify-content: end;
-  }
-
-  tr:hover {
-    background-color: #555;
-  }
   </style>

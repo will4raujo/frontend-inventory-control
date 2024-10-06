@@ -1,4 +1,5 @@
 <script setup>
+  import IconButton from '../components/atoms/IconButton.vue';
   import Button from '../components/atoms/Button.vue';
   import InputText from '../components/atoms/InputText.vue';
 </script>
@@ -19,7 +20,7 @@
     
     <div class="table-wrapper">
       <h3>Categorias cadastradas</h3>
-      <table>
+      <table class="crud-table">
         <thead>
           <tr>
             <th>Nome</th>
@@ -30,15 +31,19 @@
           <tr>
             <td>Nome da categoria</td>
             <td>
-              <Button text="Editar" />
-              <Button text="Excluir" />
+              <div>
+                <IconButton iconType="pen" />
+                <IconButton iconType="trash" />
+              </div>
             </td>
           </tr>
           <tr>
             <td>Nome da categoria</td>
             <td>
-              <Button text="Editar" />
-              <Button text="Excluir" />
+              <div>
+                <IconButton iconType="pen" />
+                <IconButton iconType="trash" />
+              </div>
             </td>
           </tr>
         </tbody>
@@ -61,36 +66,5 @@
 
   .btn-wrapper {
     max-width: 220px;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  th {
-    background-color: #333;
-    color: #fff;
-    padding: 0.5rem;
-  }
-
-  td {
-    border-bottom: 1px solid #666;
-    padding: 0.5rem;
-  }
-  
-
-  th:last-child {
-    text-align: center;
-  }
-
-  td:last-child {
-    display: flex;
-    gap: 1rem;
-    justify-content: end;
-  }
-
-  tr:hover {
-    background-color: #555;
   }
 </style>
