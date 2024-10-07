@@ -1,4 +1,28 @@
-<script setup>
+<script>
+  import api from '../services/api';
+  export default {
+    data() {
+      return {
+        productsWithLowStock: [],
+        productsNearExpiration: [],
+      };
+    },
+    mounted() {
+      this.getProductsLists();
+    },
+    methods: {
+      async getProductsLists() {
+        await api.get('/products/lists')
+          .then((response) => {
+            this.productsWithLowStock = response.data.productsWithLowStock;
+            this.productsNearExpiration = response.data.productsNearExpiration;
+          })
+          .catch((error) => {
+            console.error(error);
+          });        
+      },
+    }
+  };
 </script>
 
 <template>
@@ -15,20 +39,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Produto 1</td>
-          <td>10</td>
-          <td>10</td>
+        <tr v-if="productsWithLowStock.length === 0">
+          <td colspan="3">Nenhum produto com estoque baixo</td>
         </tr>
-        <tr>
-          <td>Produto 2</td>
-          <td>5</td>
-          <td>5</td>
-        </tr>
-        <tr>
-          <td>Produto 3</td>
-          <td>2</td>
-          <td>5</td>
+        <tr v-for="product in productsWithLowStock" :key="product.id">
+          <td>{{ product.name }}</td>
+          <td>{{ product.stock }}</td>
+          <td>{{ product.min_stock }}</td>
         </tr>
       </tbody>
     </table>
