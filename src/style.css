@@ -82,3 +82,13 @@ select:focus {
   outline: none;
   box-shadow: 0 0 0 2px #555;
 }
+
+.first-row {
+  margin: 2rem 0;
+}
+
+.inputs-container {
+  display: flex;
+  align-items: end;
+  gap: 1rem;
+}
