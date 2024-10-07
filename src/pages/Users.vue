@@ -151,7 +151,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in users" :key="user.id">
+          <tr v-if="users.length === 0">
+            <td colspan="4" style="text-align: center;">Nenhum usuário encontrado.</td>
+          </tr>
+          <tr v-else v-for="user in users" :key="user.id">
             <td>{{ user.name }}</td> 
             <td>{{ user.email }}</td>
             <td>{{ user.phone }}</td>
