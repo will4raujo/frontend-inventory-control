@@ -77,7 +77,7 @@ export default {
               Relatórios Estoque
             </span>
             <ul v-if="showReports" class="section-items">
-              <Li to="/reports/balance" label="Saldo" />
+              <Li to="/reports/balance" label="Saldo" v-if="authenticatedUser && authenticatedUser.role_id !== 3" />
               <Li to="/reports/movements" label="Movimentações" />
             </ul>
           </li>

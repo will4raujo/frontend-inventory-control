@@ -4,6 +4,7 @@
   import Modal from '../components/atoms/Modal.vue';
   import InputText from '../components/atoms/InputText.vue';
   import api from '../services/api';
+  import { useUserStore } from '../stores/user';
 
   export default {
       components: {
@@ -19,6 +20,7 @@
           isVisible: false,
           isEditing: false,
           currentSupplierId: null,
+          authenticatedUser: null,
           formData: {
             name: '',
             cnpj: '',
@@ -28,8 +30,14 @@
       },
       mounted() {
         this.getSuppliers();
+        this.handleGetUser();
       },
       methods: {
+        async handleGetUser() {
+        const userStore = useUserStore();
+        await userStore.fetchUser();
+        this.authenticatedUser = userStore.user;
+      },
         async getSuppliers() {
           await api.get('/suppliers')
             .then((response) => {
@@ -114,7 +122,7 @@
     <div class="first-row">
       <div class="inputs-container">
         <div class="btn-wrapper">
-          <Button text="Novo fornecedor" @click="showModal = true" />
+          <Button text="Novo fornecedor" @click="showModal = true" v-if="authenticatedUser && authenticatedUser.role_id !== 3" />
         </div>
       </div>
     </div>
@@ -125,7 +133,7 @@
             <th>Nome</th>
             <th>Cnpj</th>
             <th>Contato</th>
-            <th>Ações</th>
+            <th v-if="authenticatedUser && authenticatedUser.role_id !== 3">Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -136,7 +144,7 @@
             <td>{{ supplier.name }}</td>
             <td>{{ supplier.cnpj }}</td>
             <td>{{ supplier.contact }}</td>
-            <td>
+            <td v-if="authenticatedUser && authenticatedUser.role_id !== 3">
               <div>
                 <IconButton iconType="pen" @click="handleEditSupplier(supplier.id)" />
                 <IconButton iconType="trash" @click="handleDeleteSupplier(supplier.id)" />

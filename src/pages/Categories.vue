@@ -20,6 +20,7 @@
         isVisible: false,
         isEditing: false,
         currentCategoryId: null,
+        authenticatedUser: null,
         formData: {
           name: '',
         }
@@ -27,8 +28,14 @@
     },
     mounted() {
       this.getCategories();
+      this.handleGetUser();
     },
     methods: {
+      async handleGetUser() {
+        const userStore = useUserStore();
+        await userStore.fetchUser();
+        this.authenticatedUser = userStore.user;
+      },
       async getCategories() {
         await api.get('/categories')
           .then((response) => {
@@ -110,7 +117,7 @@
     <div class="first-row">
       <div class="inputs-container">
         <div class="btn-wrapper">
-          <Button text="Criar categoria" @click="showModal = true" />
+          <Button text="Criar categoria" @click="showModal = true" v-if="authenticatedUser && authenticatedUser.role_id !== 3" />
         </div>
       </div>
     </div>
@@ -120,7 +127,7 @@
         <thead>
           <tr>
             <th>Nome</th>
-            <th>Ações</th>
+            <th v-if="authenticatedUser && authenticatedUser.role_id !== 3">Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -129,7 +136,7 @@
           </tr>
           <tr v-else v-for="category in categories" :key="category.id">
             <td>{{ category.name }}</td>
-            <td>
+            <td v-if="authenticatedUser && authenticatedUser.role_id !== 3">
               <div>
                 <IconButton iconType="pen" @click="handleEditCategory(category.id)" />
                 <IconButton iconType="trash" @click="handleDeleteCategory(category.id)" />

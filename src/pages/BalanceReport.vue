@@ -47,7 +47,7 @@
 <template>
   <h1>Relatório de Saldo de Estoque</h1>
   <div class="btn-wrapper">
-    <Button type="button" text="Saldo de Estoque" @click="setActiveList('balance')"></Button>
+    <Button type="button" text="Atual" @click="setActiveList('balance')"></Button>
     <Button type="button" text="Por Categoria" @click="setActiveList('category')"></Button>
     <Button type="button" text="Por Fornecedor" @click="setActiveList('supplier')"></Button>
   </div>
