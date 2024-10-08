@@ -1,25 +1,49 @@
-<script setup>
+<script>
 import { ref, onMounted } from 'vue';
 import { House, Users, Barcode, ChartBarStacked, Truck, LogOut, FilePen, FileSpreadsheet } from 'lucide-vue-next';
 import Li from '../components/atoms/Li.vue';
 import { useUserStore } from '../stores/user';
 
-const { user, fetchUserProfile } = useUserStore();
-const showCadastros = ref(false);
-const showRelatorios = ref(false);
-
-
-function toggleSection(section) {
-  if (section === 'cadastros') {
-    showCadastros.value = !showCadastros.value;
-  } else if (section === 'relatorios') {
-    showRelatorios.value = !showRelatorios.value;
+export default {
+  components: {
+    Li,
+    House,
+    Users,
+    Barcode,
+    ChartBarStacked,
+    Truck,
+    LogOut,
+    FilePen,
+    FileSpreadsheet,
+  },
+  data() {
+    return{
+      showRegistrations: false,
+      showReports: false,
+      authenticatedUser: null,
+    }
+  },
+  mounted() {    
+    this.handleGetUser();
+  },
+  methods: {
+    toggleSection(section) {
+      if (section === 'cadastros') {
+        this.showRegistrations = !this.showRegistrations;
+      } else if (section === 'relatorios') {
+        this.showReports = !this.showReports;
+      }
+    },
+    async handleGetUser() {
+      const userStore = useUserStore();
+      await userStore.fetchUser();
+      this.authenticatedUser = userStore.user;
+    },
+    handleLogout() {
+      localStorage.removeItem('@inventorystocktoken');
+      window.location.href = '/signin';
+    }
   }
-}
-
-function handleLogout() {
-  localStorage.removeItem('@inventorystocktoken');
-  window.location.href = '/signin';
 }
 
 </script>
@@ -27,7 +51,7 @@ function handleLogout() {
 <template>
   <div class="app-container">
     <aside class="menu-aside">
-      <p>Olá, {{ user?.name }}</p>
+      <p>Olá, {{ authenticatedUser?.name }}</p>
       <nav>
         <ul>
           <Li to="/" label="Home" />
@@ -37,10 +61,10 @@ function handleLogout() {
               <FilePen :size="20" />
               Cadastros
             </span>
-            <ul v-if="showCadastros" class="section-items">
+            <ul v-if="showRegistrations" class="section-items">
               <Li to="/products" label="Produtos" />
               <Li to="/categories" label="Categorias" />
-              <Li to="/users" label="Usuários" />
+              <Li to="/users" label="Usuários" v-if="authenticatedUser && authenticatedUser.role_id !== 3" />
               <Li to="/suppliers" label="Fornecedores" />
             </ul>
           </li>
@@ -52,8 +76,8 @@ function handleLogout() {
               <FileSpreadsheet :size="20" />
               Relatórios Estoque
             </span>
-            <ul v-if="showRelatorios" class="section-items">
-              <Li to="/reports/balance" label="Saldo" />
+            <ul v-if="showReports" class="section-items">
+              <Li to="/reports/balance" label="Saldo" v-if="authenticatedUser && authenticatedUser.role_id !== 3" />
               <Li to="/reports/movements" label="Movimentações" />
             </ul>
           </li>

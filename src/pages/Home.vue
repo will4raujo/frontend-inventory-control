@@ -12,10 +12,14 @@
     },
     methods: {
       async getProductsLists() {
-        await api.get('/products/lists')
+        await api.get('/lists/home')
           .then((response) => {
-            this.productsWithLowStock = response.data.productsWithLowStock;
-            this.productsNearExpiration = response.data.productsNearExpiration;
+            this.productsWithLowStock = response.data.low_stock_products;
+            this.productsNearExpiration = response.data.soon_to_expire_products.map(product => {
+              product.expiration_date = new Date(product.expiration_date).toLocaleDateString();
+              return product;
+            });
+            this.productsNearExpiration = response.data.soon_to_expire_products;
           })
           .catch((error) => {
             console.error(error);
@@ -30,7 +34,7 @@
   <div class="tables-wrapper">
     <div>
       <h3>Produtos com estoque baixo</h3>
-    <table>
+    <table class="crud-table">
       <thead>
         <tr>
           <th>Produto</th>
@@ -42,7 +46,7 @@
         <tr v-if="productsWithLowStock.length === 0">
           <td colspan="3">Nenhum produto com estoque baixo</td>
         </tr>
-        <tr v-for="product in productsWithLowStock" :key="product.id">
+        <tr v-else v-for="product in productsWithLowStock" :key="product.id">
           <td>{{ product.name }}</td>
           <td>{{ product.stock }}</td>
           <td>{{ product.min_stock }}</td>
@@ -52,7 +56,7 @@
   </div>
   <div>
     <h3>Produtos próximo do vencimento</h3>
-    <table>
+    <table class="crud-table">
       <thead>
         <tr>
           <th>Produto</th>
@@ -60,17 +64,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Produto 1</td>
-          <td>10/10/2021</td>
+        <tr v-if="productsNearExpiration.length === 0">
+          <td colspan="2">Nenhum produto próximo do vencimento (30 dias)</td>
         </tr>
-        <tr>
-          <td>Produto 2</td>
-          <td>15/10/2021</td>
-        </tr>
-        <tr>
-          <td>Produto 3</td>
-          <td>20/10/2021</td>
+        <tr v-else v-for="product in productsNearExpiration" :key="product.id">
+          <td>{{ product.name }}</td>
+          <td>{{ product.expiration_date }}</td>
         </tr>
       </tbody>
     </table>
@@ -93,23 +92,10 @@
     border-collapse: collapse;
   }
 
-  th {
-    background-color: #333;
-    color: #fff;
-    padding: 0.5rem;
-  }
 
   td {
     border: 1px solid #333;
     padding: 0.5rem;
-  }
-
-  tr:nth-child(even) {
-    background-color: #444;
-  }
-
-  tr:hover {
-    background-color: #555;
   }
 
   h3 {

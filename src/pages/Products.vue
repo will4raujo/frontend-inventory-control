@@ -22,6 +22,10 @@
         isVisible: false,
         isEditing: false,
         currentProductId: null,
+        authenticatedUser: null,
+        categoryFilter: '', 
+        supplierFilter: '',
+        search: '',
         formData: {
           name: '',
           code: '',
@@ -33,19 +37,45 @@
           stock: '',
           min_stock: '',
           max_stock: '',
-          expiration_date: ''
+          expiration_date: '',
         }
       };
     },
+    computed: {
+      filteredProducts() {
+          return this.products.filter(product => {
+            return (!this.categoryFilter || product.category_id === this.categoryFilter) &&
+                    (!this.supplierFilter || product.supplier_id === this.supplierFilter);
+          });
+      }
+    },
     mounted() {
+      this.handleGetUser();
       this.getProducts();
       this.getCategories();
       this.getSuppliers();
     },
+    watch: {
+      search(newSearch) {
+        this.getProducts(newSearch);
+      },
+    },
     methods: {
-      async getProducts() {
-        await api.get('/products')
+      async handleGetUser() {
+        const userStore = useUserStore();
+        await userStore.fetchUser();
+        this.authenticatedUser = userStore.user;
+      },
+      async getProducts(search = '') {
+        let url = '/products';
+        if (search) {
+          url += `?name=${search}`;
+        }
+        await api.get(url)
           .then((response) => {
+            response.data.forEach(product => {
+              product.sale_price = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.sale_price);
+            });
             this.products = response.data;
           })
           .catch((error) => {
@@ -56,7 +86,6 @@
         await api.get('/categories')
           .then((response) => {
             this.categories = response.data;
-            console.log(this.categories);
           })
           .catch((error) => {
             console.error(error);
@@ -152,9 +181,26 @@
   <div>
     <div class="first-row">
       <div class="inputs-container">
-        <div class="btn-wrapper">  
+        <div class="btn-wrapper" v-if="authenticatedUser && authenticatedUser.role_id !== 3">  
           <Button text="Novo produto" @click="showModal = true" />
         </div>
+      </div>
+    </div>
+    <div class="filters">
+      <InputText v-model="search" label="Pesquisar" id="search" placeholder="Pesquisar produto" type="text" />
+      <div class="select-wrapper">
+        <label for="category">Categoria</label>
+        <select v-model="categoryFilter" label="Categoria" id="category">
+          <option value="">Todas as categorias</option>
+          <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
+        </select>
+      </div>
+      <div class="select-wrapper">
+        <label for="supplier">Fornecedor</label>
+        <select v-model="supplierFilter" label="Fornecedor" id="supplier">
+          <option value="">Todos os fornecedores</option>
+          <option v-for="supplier in suppliers" :key="supplier.id" :value="supplier.id">{{ supplier.name }}</option>
+        </select>
       </div>
     </div>
     <div class="table-wrapper">
@@ -165,19 +211,19 @@
             <th>Código</th>
             <th>Quantidade</th>
             <th>Preço de venda</th>
-            <th>Ações</th>
+            <th v-if="authenticatedUser && authenticatedUser.role_id !== 3">Ações</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-if="products.length === 0">
+          <tr v-if="filteredProducts.length === 0">
             <td colspan="5" style="text-align: center;">Nenhum produto cadastrado</td>
           </tr>
-          <tr v-else v-for="product in products" :key="product.id">
+          <tr v-else v-for="product in filteredProducts" :key="product.id">
             <td>{{ product.name }}</td>
             <td>{{ product.code }}</td>
             <td>{{ product.stock }}</td>
             <td>{{ product.sale_price }}</td>
-            <td>
+            <td v-if="authenticatedUser && authenticatedUser.role_id !== 3">
               <div>
                 <IconButton iconType="pen" @click="handleEditProduct(product.id)" />
                 <IconButton iconType="trash" @click="handleDeleteProduct(product.id)" />
@@ -249,5 +295,11 @@
   }
   .textarea::placeholder {
     color: #ccc;
+  }
+
+  .filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
   }
 </style>

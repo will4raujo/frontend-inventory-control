@@ -17,9 +17,10 @@
       return {
         stockMovements: [],
         products: [],
-        user: [],
+        authenticatedUser: null,
         showModal: false,
         isVisible: false,
+        productFilter: '',
         formData: {
           product_id: '',
           name: '',
@@ -32,18 +33,14 @@
     },
     mounted() {
       this.getProduts();
-      this.getUser();
+      this.handleGetUser();
       this.getStockMovements();  
     },
     methods: {
-      async getUser() {
-        await api.get('/users/profile')
-          .then((response) => {
-            this.user = response.data;
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+      async handleGetUser() {
+        const userStore = useUserStore();
+        await userStore.fetchUser();
+        this.authenticatedUser = userStore.user;
       },
       async getProduts() {
         await api.get('/products')
@@ -54,14 +51,19 @@
             console.error(error);
           });
       },
-      async getStockMovements() {
-        await api.get('/movements')
+      async getStockMovements(name = '') {
+        let url = '/movements';
+        if (name) {
+          url += `?name=${name}`;
+        }
+        await api.get(url)
         .then((response) => {
             this.stockMovements = response.data.map(movement => {
                 const product = this.products.find(product => product.id === movement.product_id);
                 return {
                     ...movement,
                     created_at: new Date(movement.created_at).toLocaleDateString(),
+                    type: movement.type === 'input' ? 'Entrada' : movement.type === 'output' ? 'Saída' : movement.type === 'return' ? 'Devolução' : movement.type === 'adjustment' ? 'Ajuste Manual' : movement.type === 'loss' ? 'Perda' : 'Não definido',
                     name: product ? product.name : 'Produto não encontrado'
                 };
             });
@@ -76,7 +78,7 @@
             return;
         }
 
-        this.formData.user_id = this.user.id;
+        this.formData.user_id = this.authenticatedUser.id;
 
         try {
             await api.post('/movements', this.formData);
@@ -114,9 +116,16 @@
           <div class="btn-wrapper">
             <Button text="Novo registro" @click="showModal = true" />
           </div>
+          <div class="select-wrapper">
+            <label for="product">Filtrar por</label>
+            <select v-model="productFilter" @change="getStockMovements(productFilter)" id="product">
+              <option value="">Todos</option>
+              <option v-for="product in products" :key="product.id" :value="product.name">{{ product.name }}</option>
+            </select>
+          </div>
         </div>
     </div>
-    <div class="table-wrapper">
+    <div class="table-wrapper" v-if="authenticatedUser && authenticatedUser.role_id !== 3">
       <table class="crud-table">
         <thead>
           <tr>
@@ -166,7 +175,7 @@
       </div>
       <div class="inputs-container">
         <Button text="Cancelar" @click="handleCancel" styleType="ghost"/>
-        <Button text="Salvar" type="submit" @click="handleAddStockMovement" /> 
+        <Button text="Salvar" type="submit"/> 
       </div>
     </form>
   </Modal>
