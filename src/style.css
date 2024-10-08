@@ -19,7 +19,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-
 .crud-table {
   width: 100%;
   border-collapse: collapse;
@@ -32,7 +31,7 @@
 }
 
 .crud-table td {
-  border-bottom: 1px solid #666;
+  border-bottom: 1px solid #333;
   padding: 0.5rem;
 }
 
@@ -48,6 +47,10 @@
   display: flex;
   gap: .3rem;
   justify-content: center;
+}
+
+tr:nth-child(even) {
+  background-color: #222;
 }
 
 .crud-table tr:hover {

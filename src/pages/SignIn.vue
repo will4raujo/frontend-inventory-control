@@ -17,7 +17,7 @@
   });
 
   const router = useRouter();
-  const { fetchUserProfile } = useUserStore();
+  const { fetchUser } = useUserStore();
 
   const validateForm = () => {
     let valid = true;
@@ -49,9 +49,8 @@
 
     try {
       const response = await api.post('/login', formData.value);
-      console.log(response.data);
       localStorage.setItem('@inventorystocktoken', response.data.access_token);
-      await fetchUserProfile();
+      await fetchUser();
       router.push('/');
     } catch (error) {
       alert('E-mail ou senha inválidos.');

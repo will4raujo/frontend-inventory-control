@@ -166,7 +166,7 @@
       </div>
       <div class="inputs-container">
         <Button text="Cancelar" @click="handleCancel" styleType="ghost"/>
-        <Button text="Salvar" type="submit" @click="handleAddStockMovement" /> 
+        <Button text="Salvar" type="submit"/> 
       </div>
     </form>
   </Modal>

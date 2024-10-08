@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import api from '../services/api'; 
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+
 
 interface User {
   id: number;
@@ -11,32 +10,30 @@ interface User {
   role_id: string;
 }
 
-export const useUserStore = defineStore('user', () => {
-  const user = ref<User | null>(null);
-  const router = useRouter();
+export const useUserStore = defineStore('user', {
+  state: () => ({
+    user: {} as User | null,
+  }),
+  actions: {
+    async fetchUser() {
+      const token = localStorage.getItem('@inventorystocktoken');
+      if (!token) {
+        console.error('Token não encontrado.');
+        return;
+      }
 
-  const fetchUserProfile = async () => {
-    const token = localStorage.getItem('@inventorystocktoken');
-    if (!token) {
-      console.error('Token não encontrado.');
-      router.push('/signin');
-      return;
-    }
+      try {
+        const response = await api.get('/users/profile', {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+        });
 
-    try {
-      const response = await api.get('/users/profile', {
-        headers: {
-          Authorization: `Bearer ${token}`, 
-        },
-      });
-
-      user.value = response.data;
-    } catch (error) {
-      console.error('Erro ao buscar o perfil do usuário:', error);
-      user.value = null;
-    }
-  };
-
-  return { user, fetchUserProfile };
+        this.user = response.data;
+      } catch (error) {
+        console.error('Erro ao buscar o perfil do usuário:', error);
+        this.user = null;
+      }
+    }        
+  },
 });
-  
