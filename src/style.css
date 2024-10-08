@@ -39,14 +39,10 @@
   text-align: left;
 }
 
-.crud-table th:last-child {
-  text-align: center;
-}
 
 .crud-table td:last-child div {
   display: flex;
   gap: .3rem;
-  justify-content: center;
 }
 
 tr:nth-child(even) {

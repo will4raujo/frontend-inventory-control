@@ -64,7 +64,7 @@ export default {
             <ul v-if="showRegistrations" class="section-items">
               <Li to="/products" label="Produtos" />
               <Li to="/categories" label="Categorias" />
-              <Li to="/users" label="Usuários" v-if="authenticatedUser.role_id !== 3" />
+              <Li to="/users" label="Usuários" v-if="authenticatedUser && authenticatedUser.role_id !== 3" />
               <Li to="/suppliers" label="Fornecedores" />
             </ul>
           </li>
