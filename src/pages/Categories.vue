@@ -122,7 +122,7 @@
       </div>
     </div>
     
-    <div class="table-wrapper">
+    <div class="table-wrapper categories-container">
       <table class="crud-table">
         <thead>
           <tr>
@@ -155,8 +155,22 @@
       </div>
       <div class="btn-wrapper">
           <Button text="Cancelar" @click="handleCancel" />
-          <Button text="Salvar" type="submit" @click="handleAddCategory" />
+          <Button text="Salvar" type="submit" />
       </div>
     </form>
   </Modal>
 </template>
+
+<style>
+.categories-container {
+  max-width: 1024px;
+}
+
+.table-wrapper th:last-child {
+  text-align: center;
+}
+
+.table-wrapper td:last-child div {
+  justify-content: end;
+}
+</style>
