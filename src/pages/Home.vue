@@ -82,7 +82,9 @@
 <style scoped>
   .tables-wrapper {
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
+    max-width: 1024px;
     gap: 2rem;
     margin: 2rem 0;
   }
